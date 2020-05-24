@@ -29,16 +29,15 @@ func (e *Emitter) Emit(event string) {
 	}
 }
 
-//func (e *Emitter) RemoveListener(event string, rmCb func()) {
-//	if listeners, ok := e.eMap[event]; ok {
-//		for i, cb := range listeners {
-//			fmt.Println(reflect.ValueOf(*cb) == reflect.ValueOf(rmCb), reflect.ValueOf(*cb).Interface() == reflect.ValueOf(rmCb).Interface())
-//			if reflect.ValueOf(*cb).Pointer() == reflect.ValueOf(rmCb).Pointer() {
-//				e.eMap[event] = append(e.eMap[event][:i], e.eMap[event][i+1:]...)
-//			}
-//		}
-//	}
-//}
+func (e *Emitter) RemoveListener(event string, key string) {
+	if listeners, ok := e.eMap[event]; ok {
+		for i, listener := range listeners {
+			if listener.key == key {
+				e.eMap[event] = append(e.eMap[event][:i], e.eMap[event][i+1:]...)
+			}
+		}
+	}
+}
 
 func (e *Emitter) RemoveAllListeners(event string) {
 	delete(e.eMap, event)

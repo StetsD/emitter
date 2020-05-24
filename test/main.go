@@ -26,8 +26,6 @@ func (n *Node) message(msg string) {
 	fmt.Println("I am "+n.name+" and I receive msg: ", msg)
 }
 
-func f() {}
-
 func main() {
 	event1 := "superKillMazafakaSignal"
 	worker1 := Worker{"worker_1"}
@@ -37,11 +35,12 @@ func main() {
 	node1.On(event1, "worker1.Work", worker1.Work)
 	node1.On(event1, "worker2.Work", worker2.Work)
 	node1.On(event1, "worker1.Notify", worker1.Notify)
-	//node1.RemoveListener(event1, worker2.Work)
-	//node1.RemoveAllListeners(event1)
+	node1.RemoveListener(event1, "worker2.Work")
 	//
 
 	node1.Emit(event1)
-	//node1.RemoveListener(event1, worker1.Notify)
-	//node1.Emit(event1)
+	node1.RemoveListener(event1, "worker1.Notify")
+	node1.Emit(event1)
+	node1.RemoveAllListeners(event1)
+	node1.Emit(event1)
 }
